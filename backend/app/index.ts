@@ -3,13 +3,24 @@ import * as path from 'path'
 import * as helmet from 'helmet'
 import * as responseTime from 'response-time'
 import * as compression from 'compression'
+import * as serveStatic from 'serve-static'
 
 const app = express()
 app.use(compression())
 app.use(responseTime())
 app.use(helmet())
 
-app.use(express.static(path.resolve(__dirname, '../wwwroot')))
+app.use(serveStatic(path.resolve(__dirname, '../wwwroot'), {
+  maxAge: '1y',
+  setHeaders: setCustomCacheControl,
+}))
 app.use('/api', require('./todos/router').default)
 
 export default app
+
+function setCustomCacheControl (res, path) {
+  if (serveStatic.mime.lookup(path) === 'text/html') {
+    // Custom Cache-Control for HTML files
+    res.setHeader('Cache-Control', 'public, max-age=0')
+  }
+}
