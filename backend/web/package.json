@@ -4,16 +4,32 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "gulp": "gulp",
+    "build": "gulp build",
+    "start": "node dist/server.js",
+    "start:dev": "nodemon dist/server.js | bistre",
+    "lint": "tslint -c tslint.json './app/**/*.ts'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/debug": "^0.0.29",
+    "@types/express": "^4.0.35",
+    "@types/node": "^7.0.8",
+    "bistre": "^1.0.1",
+    "tslint": "^4.5.1",
     "typescript": "^2.2.1"
   },
   "dependencies": {
+    "bole": "^3.0.2",
+    "debug": "^2.6.3",
+    "express": "^4.15.2",
     "gulp": "^3.9.1",
-    "gulp-typescript": "^3.1.6"
+    "gulp-typescript": "^3.1.6",
+    "helmet": "^3.5.0",
+    "nodemon": "^1.11.0",
+    "response-time": "^2.3.2"
   }
 }
