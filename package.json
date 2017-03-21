@@ -2,7 +2,10 @@
   "name": "project-template",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": "6.10.0",
+    "npm": "4.2.0"
+  },
   "scripts": {
     "build:frontend": "cd frontend && npm run build",
     "build:backend": "cd backend && npm run build",
