@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const path = require("path");
+const helmet = require("helmet");
+const responseTime = require("response-time");
+const app = express();
+app.use(responseTime());
+app.use(helmet());
+app.use(express.static(path.resolve(__dirname, '../wwwroot')));
+app.use('/api', require('./todos/router').default);
+exports.default = app;
