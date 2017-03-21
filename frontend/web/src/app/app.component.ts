@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Todo } from './todos/todo'
+import { Todo } from './todos/todo';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +7,5 @@ import { Todo } from './todos/todo'
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'My first angular app!';
+  title = 'one more time';
 }
