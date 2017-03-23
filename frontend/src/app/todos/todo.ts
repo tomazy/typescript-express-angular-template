@@ -1,3 +1,6 @@
 export class Todo {
-  constructor(public description: string) {}
+  constructor(
+    public id: string,
+    public description: string
+  ) {}
 }
