@@ -1,24 +1,26 @@
-import { Injectable } from '@angular/core';
-import { Headers, Http } from '@angular/http';
+import { Injectable, Inject } from '@angular/core';
+import { Http } from '@angular/http';
 import { Todo } from './todo';
-import { environment } from '../../environments/environment';
 
 import 'rxjs/add/operator/toPromise';
 
-const { apiEndpoint } = environment;
-
 @Injectable()
 export class TodoService {
-  constructor(private http: Http) { }
+  constructor(
+    private http: Http,
+
+    @Inject('apiEndpoint')
+    private apiEndpoint: string
+  ) { }
 
   getTodos(): Promise<Todo[]> {
-    return this.http.get(`${apiEndpoint}/todos`)
+    return this.http.get(`${this.apiEndpoint}/todos`)
       .toPromise()
       .then(response => response.json() as Todo[])
-      .catch(this._handleError);
+      .catch(this.handleError);
   }
 
-  _handleError(error) {
+  private handleError(error) {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
   }
