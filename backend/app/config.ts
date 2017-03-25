@@ -6,8 +6,7 @@ const express = {
 }
 
 const mongodb = {
-  port: process.env.MONGODB_PORT || 27017,
-  host: process.env.MONGODB_HOST || 'localhost',
+  uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/myproject-dev',
 }
 
 export default {
