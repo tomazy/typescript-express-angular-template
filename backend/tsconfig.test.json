@@ -5,7 +5,11 @@
     "outDir": "dist"
   },
   "include": [
-    "app/**/*.ts"
+    "app/**/*.test.ts"
+  ],
+  "types": [
+    "jest",
+    "node"
   ],
   "exclude": [
     "node_modules"
