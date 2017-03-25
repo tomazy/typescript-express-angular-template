@@ -1,1 +1,4 @@
 node_modules
+.ruby-version
+data
+mongodb.log
