@@ -4,15 +4,29 @@ const debug = require('debug')('todos/model')
 
 const withTodosCollection = withCollection.bind(undefined, 'todos');
 
-interface Todo {
-  id: string,
-  description: string,
+interface TodoFields {
+  description: string;
+}
+
+interface Todo extends TodoFields {
+  id: string;
+}
+
+interface TodoDoc extends TodoFields {
+  _id: string;
+}
+
+function toModel({ _id, ...rest }: TodoDoc): Todo {
+  return {
+    id: _id,
+    ...rest,
+  }
 }
 
 export function findAll(): Promise<Todo[]> {
   return withTodosCollection(async (collection) => {
-    const todos = await collection.find({}).toArray();
-    debug('findAll', todos)
+    const docs: TodoDoc[] = await collection.find({}).toArray()
+    const todos = docs.map(toModel);
     return todos;
   })
 }
