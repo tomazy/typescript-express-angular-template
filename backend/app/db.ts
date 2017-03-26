@@ -10,7 +10,12 @@ type WithDBCallback = (db: Db) => Promise<any>;
 type WithCollectionCallback = (collection: Collection) => Promise<any>;
 
 async function connect() {
-  db = await MongoClient.connect(config.mongodb.uri);
+  try {
+    db = await MongoClient.connect(config.mongodb.uri);
+  } catch (e) {
+    log.error('failed to connect to the database', e)
+    process.exit(1);
+  }
 }
 
 function withDB(callback: WithDBCallback): Promise<any> {
