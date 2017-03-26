@@ -15,7 +15,10 @@
     "build:backend": "cd backend && npm run build",
     "build": "npm run build:backend && npm run build:frontend",
     "start": "cd backend && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "e2e:start-backend": "cd backend && npm run build && npm run start:e2e",
+    "e2e:frontend": "cd frontend && npm run e2e",
+    "test:e2e": "./scripts/e2e.sh",
+    "test": "npm run test:e2e"
   },
   "keywords": [],
   "author": "",

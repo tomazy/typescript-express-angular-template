@@ -8,6 +8,7 @@
     "build": "gulp build",
     "start": "node dist/server.js",
     "start:dev:server": "nodemon dist/server.js | bistre",
+    "start:e2e": "MONGODB_URI=mongodb://localhost:27017/e2e node dist/server.js",
     "start:dev": "npm-run-all -p gulp start:dev:server",
     "lint": "tslint -c tslint.json './app/**/*.ts'",
     "test": "jest --forceExit",

@@ -19,6 +19,10 @@ app.use(serveStatic(path.resolve(__dirname, '../wwwroot'), {
 
 app.use('/api', cors, require('./todos/router').default)
 
+app.get('/_heartbeat', (req, res) => {
+  res.sendStatus(204);
+})
+
 export default app
 
 function setCustomCacheControl (res, path) {
