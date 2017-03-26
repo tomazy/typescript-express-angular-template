@@ -1,3 +1,5 @@
+import * as invariant from 'invariant';
+
 import { MongoClient, Db, Collection } from 'mongodb';
 import config from './config';
 
@@ -9,24 +11,20 @@ let db
 type WithDBCallback = (db: Db) => Promise<any>;
 type WithCollectionCallback = (collection: Collection) => Promise<any>;
 
-async function connect() {
+export async function connect() {
   try {
-    db = await MongoClient.connect(config.mongodb.uri);
+    return db = await MongoClient.connect(config.mongodb.uri);
   } catch (e) {
     log.error('failed to connect to the database', e)
-    process.exit(1);
+    process.exit(111);
   }
 }
 
 function withDB(callback: WithDBCallback): Promise<any> {
-  if (!db) {
-    throw new Error('not connected yet')
-  }
+  invariant(!!db, 'db not initialized!')
   return callback(db)
 }
 
 export function withCollection(collectionName: string, callback: WithCollectionCallback): Promise<any> {
   return withDB(db => callback(db.collection(collectionName)));
 }
-
-connect()

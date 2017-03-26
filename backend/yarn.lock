@@ -37,6 +37,10 @@
   dependencies:
     "@types/express" "*"
 
+"@types/invariant@^2.2.28":
+  version "2.2.28"
+  resolved "https://registry.yarnpkg.com/@types/invariant/-/invariant-2.2.28.tgz#ad721b5c0168db3aaffe551d4acfb8a5b4386e30"
+
 "@types/jest@^19.2.2":
   version "19.2.2"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-19.2.2.tgz#71f428be2fa6eb9f15bb0abc3cade67905f94839"
@@ -1863,7 +1867,7 @@ interpret@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c"
 
-invariant@^2.2.0:
+invariant@^2.2.0, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
