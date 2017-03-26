@@ -1,7 +1,9 @@
 import * as cors from 'cors'
 import config from './config'
 
-const whitelist = config.production
+const { production } = config;
+
+const whitelist = production
   ? []
   : ['http://localhost:4200']
 
@@ -12,6 +14,9 @@ const corsOptions = {
       callback(null, true)
     }
     else if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else if (!production && origin.match(/localhost/)) {
+      // e2e tests run on random ports
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))

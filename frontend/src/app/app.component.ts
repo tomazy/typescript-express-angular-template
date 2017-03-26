@@ -7,5 +7,5 @@ import { Todo } from './todos/todo';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'one more time';
+  title = 'todos';
 }

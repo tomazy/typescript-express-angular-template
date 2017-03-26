@@ -1,3 +1,4 @@
+import { browser, element, by } from 'protractor';
 import { WebPage } from './app.po';
 
 describe('web App', () => {
@@ -7,8 +8,8 @@ describe('web App', () => {
     page = new WebPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display todos', async () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    expect(await page.getTodosText()).toContain('Get some milk');
   });
 });

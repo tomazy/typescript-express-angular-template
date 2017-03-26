@@ -8,4 +8,8 @@ export class WebPage {
   getParagraphText() {
     return element(by.css('app-root h1')).getText();
   }
+
+  getTodosText() {
+    return element(by.css('app-root app-todos')).getText();
+  }
 }
