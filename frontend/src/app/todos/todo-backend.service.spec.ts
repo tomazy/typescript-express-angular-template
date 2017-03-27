@@ -1,9 +1,10 @@
 import {
-    BaseRequestOptions,
-    Http,
-    Response,
-    ResponseOptions,
-    XHRBackend
+  HttpModule,
+  BaseRequestOptions,
+  Http,
+  Response,
+  ResponseOptions,
+  XHRBackend
 } from '@angular/http';
 
 import {
@@ -12,7 +13,7 @@ import {
   async
 } from '@angular/core/testing';
 
-import {Subject} from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 
 import {
   MockBackend,
@@ -24,18 +25,12 @@ import { TodoBackendService } from './todo-backend.service';
 describe('TodoBackendService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpModule],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
         TodoBackendService,
+        MockBackend,
         { provide: 'apiEndpoint', useValue: '/test-api' },
-        {
-          deps: [MockBackend, BaseRequestOptions],
-          provide: Http,
-          useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
-            return new Http(backend, defaultOptions);
-          }
-        }
+        { provide: XHRBackend, useClass: MockBackend },
       ]
     });
   });
@@ -49,8 +44,7 @@ describe('TodoBackendService', () => {
       expect(http.get).toHaveBeenCalledWith('/test-api/todos');
     })));
 
-    it('parses the response', async(inject([TodoBackendService], (service: TodoBackendService) => {
-      const backend = TestBed.get(MockBackend) as MockBackend;
+    it('parses the response', async(inject([TodoBackendService, MockBackend], (service: TodoBackendService, backend) => {
       const json = [{
         id: '1',
         description: 'Buy some milk',
