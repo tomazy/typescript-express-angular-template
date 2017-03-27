@@ -1,6 +1,6 @@
 import {withCollection} from '../db';
 
-const debug = require('debug')('todos/model')
+const debug = require('debug')('todos/model');
 
 const withTodosCollection = withCollection.bind(undefined, 'todos');
 
@@ -20,13 +20,13 @@ function toModel({ _id, ...rest }: TodoDoc): Todo {
   return {
     id: _id,
     ...rest,
-  }
+  };
 }
 
 export function findAll(): Promise<Todo[]> {
   return withTodosCollection(async (collection) => {
-    const docs: TodoDoc[] = await collection.find({}).toArray()
+    const docs: TodoDoc[] = await collection.find({}).toArray();
     const todos = docs.map(toModel);
     return todos;
-  })
+  });
 }

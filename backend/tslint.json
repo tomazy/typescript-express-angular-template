@@ -110,6 +110,10 @@
       "check-seperator",
       "check-type",
       "check-typecast"
+    ],
+    "semicolon": [
+      true,
+      "always"
     ]
   }
 }
