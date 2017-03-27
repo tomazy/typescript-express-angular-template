@@ -5,6 +5,7 @@ import * as responseTime from 'response-time';
 import * as compression from 'compression';
 import * as serveStatic from 'serve-static';
 import * as errorHandler from 'express-error-handler';
+import * as bodyParser from 'body-parser';
 
 import {middleware as db} from './db';
 import cors from './cors';
@@ -16,6 +17,7 @@ app.use(responseTime());
 app.use(log.requestLogger());
 app.use(compression());
 app.use(helmet());
+app.use(bodyParser.json());
 
 app.use(serveStatic(path.resolve(__dirname, '../wwwroot'), {
   maxAge: '1y',

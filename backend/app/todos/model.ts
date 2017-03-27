@@ -21,8 +21,16 @@ function toModel({ _id, ...rest }: TodoDoc): Todo {
   };
 }
 
+function toDoc({ id, ...rest }: Todo): TodoDoc {
+  return {
+    _id: id,
+    ...rest,
+  };
+}
+
 export interface TodoGateway {
   findAll(): Promise<Todo[]>;
+  insert(todo: Todo): Promise<Todo>;
 }
 
 export function createGateway(db: Db): TodoGateway {
@@ -33,6 +41,11 @@ export function createGateway(db: Db): TodoGateway {
       const docs: TodoDoc[] = await collection.find({}).toArray();
       const todos = docs.map(toModel);
       return todos;
+    },
+
+    async insert(todo: Todo): Promise<Todo> {
+      const result = await collection.insertOne(toDoc(todo));
+      return toModel(result.ops[0]);
     },
   };
 }

@@ -17,25 +17,17 @@ import {Subject} from 'rxjs/Subject';
 import {
   MockBackend,
   MockConnection
-} from '@angular/http/testing'
+} from '@angular/http/testing';
 
-import { TodoService } from './todo.service';
+import { TodoBackendService } from './todo-backend.service';
 
-function mockResponse(options: any, backend: MockBackend) {
-  backend.connections.subscribe((conn: MockConnection) => {
-    const ro = new ResponseOptions(options);
-    const r = new Response(ro);
-    conn.mockRespond(r);
-  });
-}
-
-describe('TodoService', () => {
+describe('TodoBackendService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         MockBackend,
         BaseRequestOptions,
-        TodoService,
+        TodoBackendService,
         { provide: 'apiEndpoint', useValue: '/test-api' },
         {
           deps: [MockBackend, BaseRequestOptions],
@@ -49,15 +41,15 @@ describe('TodoService', () => {
   });
 
   describe('fetching todos', () => {
-    it('uses the api', async(inject([TodoService], (service: TodoService) => {
+    it('uses the api', async(inject([TodoBackendService], (service: TodoBackendService) => {
       const http = TestBed.get(Http) as Http;
       spyOn(http, 'get').and.returnValue(new Subject());
 
-      service.getTodos();
+      service.fetchTodos();
       expect(http.get).toHaveBeenCalledWith('/test-api/todos');
     })));
 
-    it('parses the response', async(inject([TodoService], (service: TodoService) => {
+    it('parses the response', async(inject([TodoBackendService], (service: TodoBackendService) => {
       const backend = TestBed.get(MockBackend) as MockBackend;
       const json = [{
         id: '1',
@@ -71,9 +63,17 @@ describe('TodoService', () => {
         body: json,
       }, backend);
 
-      service.getTodos().then(todos => {
+      service.fetchTodos().subscribe(todos => {
         expect(todos).toEqual(json);
       });
     })));
   });
 });
+
+function mockResponse(options: any, backend: MockBackend) {
+  backend.connections.subscribe((conn: MockConnection) => {
+    const ro = new ResponseOptions(options);
+    const r = new Response(ro);
+    conn.mockRespond(r);
+  });
+}

@@ -1,19 +1,20 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TodoService } from './todo.service';
+import { TodoStoreService } from './todo-store.service';
 import { Todo } from './todo';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css'],
-  providers: [TodoService],
 })
 export class TodosComponent implements OnInit {
-  private todos: Todo[];
+  private todos$: Observable<Todo[]>;
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoStore: TodoStoreService) { }
 
   ngOnInit() {
-    this.todoService.getTodos().then(todos => this.todos = todos);
+    this.todos$ = this.todoStore.todos$;
+    this.todoStore.load();
   }
 }

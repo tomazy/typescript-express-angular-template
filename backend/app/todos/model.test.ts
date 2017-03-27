@@ -23,7 +23,7 @@ describe('gateway', () => {
   });
 
   describe('find all', () => {
-    it('fixes the ids', async () => {
+    it('works', async () => {
       collection.find = jest.fn(() => ({
         toArray: jest.fn(() => Promise.resolve([
           { _id: 'id-1', description: 'milk' },
@@ -33,6 +33,21 @@ describe('gateway', () => {
 
       const todos = await gateway.findAll();
       expect(todos.map(t => t.id)).toEqual(['id-1', 'id-2']);
+    });
+  });
+
+  describe('insert', () => {
+    it('works', async () => {
+      collection.insertOne = jest.fn(({ description }) => (
+        Promise.resolve({
+          ops: [
+            { _id: 'id-xxx', description },
+          ],
+        })
+      ));
+
+      const todo = await gateway.insert({ id: null, description: 'yyy' });
+      expect(todo).toEqual({ id: 'id-xxx', description: 'yyy' });
     });
   });
 });

@@ -1,7 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TodoService } from './todo.service';
+import { Observable } from 'rxjs/Observable';
+
+import { TodoStoreService } from './todo-store.service';
 import { TodosComponent } from './todos.component';
 import { Todo } from './todo';
+
+import 'rxjs/add/observable/of';
 
 describe('TodosComponent', () => {
   let component: TodosComponent;
@@ -15,7 +19,8 @@ describe('TodosComponent', () => {
     ];
 
     const dummyTodoService = {
-      getTodos: jasmine.createSpy('getTodos').and.returnValue(Promise.resolve(todos))
+      todos$: Observable.of(todos),
+      load: () => {}
     };
 
     TestBed.configureTestingModule({
@@ -24,7 +29,7 @@ describe('TodosComponent', () => {
     .overrideComponent(TodosComponent, {
       set: {
         providers: [
-          { provide: TodoService, useValue: dummyTodoService }
+          { provide: TodoStoreService, useValue: dummyTodoService }
         ]
       }
     });
