@@ -1,40 +1,43 @@
-jest.mock('../db');
-import {findAll} from './model';
-import {withCollection} from '../db';
+jest.mock('mongodb');
+import { Db, Server } from 'mongodb';
 
-describe('find all', () => {
-  let mocked;
+import {createGateway, TodoGateway} from './model';
+
+describe('gateway', () => {
+  let gateway: TodoGateway;
+  let collectionMock: jest.Mock<{}>;
+  let collection;
 
   beforeEach(() => {
-    mocked = withCollection as jest.Mock<any>;
-    mocked.mockReset();
+    const db = createFakeDb();
+
+    collection = {};
+    collectionMock = db.collection as jest.Mock<{}>;
+    collectionMock.mockReturnValue(collection);
+
+    gateway = createGateway(db);
   });
 
-  it('uses db', () => {
-    findAll();
-    expect(mocked).toHaveBeenCalledTimes(1);
+  it('uses the right collection', () => {
+    expect(collectionMock).toHaveBeenCalledWith('todos');
   });
 
-  it('uses todos collection', () => {
-    findAll();
-    expect(mocked.mock.calls[0][0]).toEqual('todos');
-  });
-
-  it('fixes the ids', async () => {
-    const collection = {
-      find: jest.fn(() => ({
+  describe('find all', () => {
+    it('fixes the ids', async () => {
+      collection.find = jest.fn(() => ({
         toArray: jest.fn(() => Promise.resolve([
           { _id: 'id-1', description: 'milk' },
           { _id: 'id-2', description: 'coffee' },
         ])),
-      })),
-    };
+      }));
 
-    mocked.mockImplementation((_, cb) => {
-      return cb(collection);
+      const todos = await gateway.findAll();
+      expect(todos.map(t => t.id)).toEqual(['id-1', 'id-2']);
     });
-
-    const todos = await findAll();
-    expect(todos.map(t => t.id)).toEqual(['id-1', 'id-2']);
   });
 });
+
+function createFakeDb(): Db {
+  const server = new Server('http://example.com', 1234);
+  return new Db('x', server);
+}

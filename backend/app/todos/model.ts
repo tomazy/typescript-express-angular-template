@@ -1,8 +1,6 @@
-import {withCollection} from '../db';
+import { Db } from 'mongodb';
 
 const debug = require('debug')('todos/model');
-
-const withTodosCollection = withCollection.bind(undefined, 'todos');
 
 interface TodoFields {
   description: string;
@@ -23,10 +21,18 @@ function toModel({ _id, ...rest }: TodoDoc): Todo {
   };
 }
 
-export function findAll(): Promise<Todo[]> {
-  return withTodosCollection(async (collection) => {
-    const docs: TodoDoc[] = await collection.find({}).toArray();
-    const todos = docs.map(toModel);
-    return todos;
-  });
+export interface TodoGateway {
+  findAll(): Promise<Todo[]>;
+}
+
+export function createGateway(db: Db): TodoGateway {
+  const collection = db.collection('todos');
+
+  return {
+    async findAll() {
+      const docs: TodoDoc[] = await collection.find({}).toArray();
+      const todos = docs.map(toModel);
+      return todos;
+    },
+  };
 }

@@ -1,20 +1,12 @@
+import * as wrap from 'co-express';
+import {createGateway} from './model';
+
 const router = require('express').Router();
-const log = require('bole')('todos/router');
 
-import { findAll } from './model';
-
-router.get('/todos', (req, res) => {
-  log.info('GET /todos');
-
-  findAll()
-    .then(todos => {
-      res.json(todos);
-    })
-    .catch(error => {
-      log.error('failed to findAll', error);
-      res.status(500).send(error);
-    });
-});
+router.get('/todos', wrap(function *(req, res) {
+  const gateway = createGateway(req.db);
+  const todos = yield gateway.findAll();
+  res.json(todos);
+}));
 
 export default router;
-

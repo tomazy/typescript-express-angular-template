@@ -1,15 +1,11 @@
 import * as invariant from 'invariant';
 
-import { MongoClient, Db, Collection } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import config from './config';
 
-const log = require('bole')('db');
-const debug = require('debug')('db');
+const log = require('./logger')('db');
 
-let db;
-
-type WithDBCallback = (db: Db) => Promise<any>;
-type WithCollectionCallback = (collection: Collection) => Promise<any>;
+let db: Db;
 
 export async function connect() {
   try {
@@ -20,11 +16,9 @@ export async function connect() {
   }
 }
 
-function withDB(callback: WithDBCallback): Promise<any> {
+export function middleware(req, res, next) {
   invariant(!!db, 'db not initialized!');
-  return callback(db);
-}
-
-export function withCollection(collectionName: string, callback: WithCollectionCallback): Promise<any> {
-  return withDB(db => callback(db.collection(collectionName)));
+  invariant(!req.db, 'db already exists on request object!');
+  req.db = db;
+  next();
 }
