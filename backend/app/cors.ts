@@ -1,11 +1,10 @@
 import * as cors from 'cors';
+import * as createError from 'http-errors';
+
 import config from './config';
 
-const { production } = config;
-
-const whitelist = production
-  ? []
-  : ['http://localhost:4200'];
+const { corsWhitelist, production } = config;
+const log = require('./logger')('cors');
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -13,13 +12,14 @@ const corsOptions = {
       // the call comes from the same origin as the server
       callback(null, true);
     }
-    else if (whitelist.indexOf(origin) !== -1) {
+    else if (corsWhitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else if (!production && origin.match(/localhost/)) {
       // e2e tests run on random ports
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      log.error(`'${origin}' Not allowed by CORS`);
+      callback(new createError.Forbidden());
     }
   },
 };

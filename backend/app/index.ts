@@ -32,7 +32,7 @@ app.get('/_heartbeat', (req, res) => {
 });
 
 app.get('/_error', (req, res, next) => {
-  // to test if our server should gracefully restarts
+  // to test if our server gracefully restarts
   throw new Error('sample error 2');
 });
 
