@@ -23,12 +23,8 @@ export class TodoStoreService {
   add(todo: Todo) {
     this.todoBackend.add(todo)
       .subscribe(t => {
-        const s = this.todosSubject.subscribe(todos => {
-          setTimeout(() => {
-            s.unsubscribe();
-            this.todosSubject.next([...todos, t]);
-          }, 0);
-        });
+        const todos = this.todosSubject.getValue();
+        this.todosSubject.next([...todos, t]);
       });
   }
 }
