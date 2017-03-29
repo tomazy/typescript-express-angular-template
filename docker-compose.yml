@@ -1,0 +1,18 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - '.data:/data/db'
+  web:
+    build: .
+    environment:
+      NODE_ENV: production
+      CORS_WHITELIST: ${CORS_WHITELIST}
+      MONGODB_URI: 'mongodb://mongo:27017/myproject'
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
