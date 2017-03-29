@@ -17,7 +17,7 @@ const corsWhitelist = (envCorsWhitelist.length > 0)
 
 export default {
   production,
-express,
+  express,
   mongodb,
   corsWhitelist,
 };
