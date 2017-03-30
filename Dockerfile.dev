@@ -1,0 +1,23 @@
+FROM sample_stack/node-chrome
+
+RUN mkdir /app
+RUN mkdir /app/frontend
+RUN mkdir /app/backend
+
+COPY frontend/package.json frontend/yarn.lock /app/frontend/
+WORKDIR /app/frontend
+RUN yarn --pure-lockfile
+
+COPY backend/package.json backend/yarn.lock /app/backend/
+WORKDIR /app/backend
+RUN yarn --pure-lockfile
+
+COPY package.json yarn.lock /app/
+WORKDIR /app
+RUN yarn --pure-lockfile
+
+COPY . /app/
+
+ENV NODE_ENV=development
+
+RUN npm run build

@@ -6,13 +6,14 @@ services:
       - "27017:27017"
     volumes:
       - '.data:/data/db'
-  web:
-    build: .
+  webapp:
+    image: ${RELEASE_IMAGE_NAME}
     environment:
-      NODE_ENV: production
-      CORS_WHITELIST: ${CORS_WHITELIST}
-      MONGODB_URI: 'mongodb://mongo:27017/myproject'
+      CORS_WHITELIST: 'http://example.com/'
+      MONGODB_URI: 'mongodb://mongo:27017/'
     ports:
       - "3000:3000"
     links:
+      - mongo
+    depends_on:
       - mongo

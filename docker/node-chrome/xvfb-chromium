@@ -1,5 +1,5 @@
 #!/bin/bash
-# https://github.com/mark-adams/docker-chromium-xvfb
+# from https://github.com/mark-adams/docker-chromium-xvfb
 
 _kill_procs() {
   kill -TERM $chromium

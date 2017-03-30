@@ -53,5 +53,5 @@ windows:
   - mongodb:
       layout: main-horizontal
       panes:
-        - mkdir -p data &&  mongod --dbpath data
+        - ./scripts/start-mongodb-dev.sh
         - mongo

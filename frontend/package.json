@@ -9,6 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "lint-staged": "lint-staged",
+    "test:ci": "npm run test -- --single-run",
     "e2e": "ng e2e --environment=e2e"
   },
   "private": true,

@@ -13,6 +13,7 @@
     "lint": "tslint -c tslint.json './app/**/*.ts'",
     "lint-staged": "lint-staged",
     "test": "jest --forceExit",
+    "test:ci": "npm run test",
     "test:watch": "jest --watch"
   },
   "keywords": [],

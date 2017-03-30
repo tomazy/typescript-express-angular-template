@@ -3,7 +3,7 @@ import * as createError from 'http-errors';
 
 import config from './config';
 
-const { corsWhitelist, production } = config;
+const { corsWhitelist, production, ci } = config;
 const log = require('./logger')('cors');
 
 const corsOptions = {
@@ -14,7 +14,7 @@ const corsOptions = {
     }
     else if (corsWhitelist.indexOf(origin) !== -1) {
       callback(null, true);
-    } else if (!production && origin.match(/localhost/)) {
+    } else if ((!production || ci) && origin.match(/localhost/)) {
       // e2e tests run on random ports
       callback(null, true);
     } else {

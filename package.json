@@ -7,8 +7,7 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "postinstall": "npm run install:backend && npm run install:frontend",
-    "heroku-postbuild": "npm run build",
+    "heroku-postbuild": "npm-run-all --serial install:backend install:frontend build",
     "install:frontend": "cd frontend && yarn",
     "install:backend": "cd backend && yarn",
     "build:frontend": "cd frontend && npm run build",
@@ -17,21 +16,33 @@
     "lint:backend": "cd backend && npm run lint",
     "lint-staged:frontend": "cd frontend && npm run lint-staged",
     "lint-staged:backend": "cd backend && npm run lint-staged",
-    "build": "npm run build:backend && npm run build:frontend",
+    "build": "npm-run-all -p build:backend build:frontend",
     "start": "cd backend && npm start",
     "e2e:start-backend": "cd backend && npm run build && npm run start:e2e",
     "e2e:frontend": "cd frontend && npm run e2e",
-    "test:e2e": "./scripts/e2e.sh",
     "lint": "npm-run-all -p lint:frontend lint:backend",
     "lint-staged": "npm-run-all --silent -p lint-staged:frontend lint-staged:backend",
-    "test": "npm run test:e2e"
+    "test": "npm run test:e2e",
+    "wait-for-selenium": "./scripts/wait-for-selenium.sh",
+    "wait-for-sut": "./scripts/wait-for-sut.sh",
+    "test:e2e": "npm run wait-for-selenium && npm run wait-for-sut && protractor",
+    "test:ci:frontend": "cd frontend && npm run test:ci",
+    "test:ci:backend": "cd backend && npm run test:ci",
+    "test:ci": "npm run test:ci:backend && npm run test:ci:frontend"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^2.5.47",
+    "jasmine-core": "^2.5.2",
+    "jasmine-spec-reporter": "^3.2.0",
     "lint-staged": "^3.4.0",
-    "pre-commit": "^1.2.2"
+    "pow-mongodb-fixtures": "^0.14.0",
+    "pre-commit": "^1.2.2",
+    "protractor": "^5.1.1",
+    "ts-node": "^3.0.2",
+    "typescript": "^2.2.2"
   },
   "dependencies": {
     "npm-run-all": "^4.0.2"

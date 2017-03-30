@@ -1,0 +1,30 @@
+version: "3"
+services:
+  webapp:
+    environment:
+      CORS_WHITELIST: 'http://webapp:3000'
+      MONGODB_URI: 'mongodb://mongo:27017/myproject-test'
+      CI: ${CI-false}
+    depends_on:
+      - selenium
+    ports:
+      - "3000:3000"
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - '5900:5900'
+
+  e2e-runner:
+    image: ${DEV_IMAGE_NAME}
+    environment:
+      SUT_URL: 'http://webapp:3000'
+      SELENIUM_ADDRESS: 'http://selenium:4444/wd/hub'
+      MONGODB_HOST: 'mongo'
+      MONGODB_PORT: '27017'
+      MONGODB_DATABASE: 'myproject-test'
+      CI: 'true'
+    command: "npm run test:e2e"
+    depends_on:
+      - selenium
+      - webapp

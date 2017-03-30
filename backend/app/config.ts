@@ -15,9 +15,12 @@ const corsWhitelist = (envCorsWhitelist.length > 0)
   ? envCorsWhitelist
   : (production ? [] : ['http://localhost:4200']);
 
+const ci = process.env.CI === 'true';
+
 export default {
   production,
   express,
   mongodb,
   corsWhitelist,
+  ci,
 };

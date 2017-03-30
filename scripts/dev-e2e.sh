@@ -24,6 +24,12 @@ BACKEND_PORT=3333
 BACKEND_HEARTBEAT_URL=http://localhost:$BACKEND_PORT/_heartbeat
 BACKEND_LOG=/tmp/test-backend.log
 
+export SUT_URL=http://localhost:$BACKEND_PORT
+export MONGODB_PORT=27019
+export MONGODB_HOST=localhost
+export MONGODB_DATABASE=e2e
+export MONGODB_URI=mongodb://$MONGODB_HOST:$MONGODB_PORT/$MONGODB_DATABASE
+
 # Exit the script with a helpful error message when any error is encountered
 trap 'set +x; handle_error $LINENO $BASH_COMMAND' ERR
 
@@ -33,12 +39,14 @@ trap 'set +x; handle_exit' SIGQUIT SIGTERM SIGINT SIGKILL SIGHUP
 # Echo every command being executed
 # set -x
 
+echo "Starting test mongodb server"
+./scripts/start-mongodb-dev-e2e.sh -d
+
 echo 'Starting the backend'
 cd backend
 npm run build
-PORT=$BACKEND_PORT npm run start:e2e > $BACKEND_LOG 2>&1 &
+PORT=$BACKEND_PORT npm start > $BACKEND_LOG 2>&1 &
 BACKEND_PID=$!
-
 cd $INITIAL_PATH
 
 echo "Waiting for the backend to become ready"
@@ -54,8 +62,8 @@ until $(curl --output /dev/null --silent --head --fail $BACKEND_HEARTBEAT_URL); 
 done
 echo
 
+cd $INITIAL_PATH
 echo "Running the specs"
-cd frontend
-npm run e2e
+npm run test
 
 cleanup

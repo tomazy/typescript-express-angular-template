@@ -1,5 +1,4 @@
-# https://github.com/mark-adams/docker-chromium-xvfb
-
+# based on https://github.com/mark-adams/docker-chromium-xvfb
 FROM node:6
 
 RUN apt-get update && apt-get install -y curl xvfb chromium
