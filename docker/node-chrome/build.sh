@@ -1,6 +1,7 @@
 #!/bin/bash
+set -ex
 
-NAME=sample_stack/node-chrome
+NAME=${PROJECT_NAME:-sample_stack}/node-chrome
 
 DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
