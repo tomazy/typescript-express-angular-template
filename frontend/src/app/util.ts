@@ -1,0 +1,19 @@
+import * as invariant from 'invariant';
+
+/**
+ * This function coerces a string into a string literal type.
+ * Using tagged union types in TypeScript 2.0, this enables
+ * powerful typechecking of our reducers.
+ *
+ * Since every action label passes through this function it
+ * is a good place to ensure all of our action labels
+ * are unique.
+ */
+const stringLiteralTypeCache: { [label: string]: boolean } = {};
+export function stringLiteralType<T>(label: T | ''): T {
+  invariant(!stringLiteralTypeCache[<string>label], `Action type "${label}" is not unique"`);
+
+  stringLiteralTypeCache[<string>label] = true;
+
+  return <T>label;
+}

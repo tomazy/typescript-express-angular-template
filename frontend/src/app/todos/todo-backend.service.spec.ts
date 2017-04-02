@@ -4,20 +4,20 @@ import {
   Http,
   Response,
   ResponseOptions,
-  XHRBackend
+  XHRBackend,
 } from '@angular/http';
 
 import {
   TestBed,
   inject,
-  async
+  async,
 } from '@angular/core/testing';
 
 import { Subject } from 'rxjs/Subject';
 
 import {
   MockBackend,
-  MockConnection
+  MockConnection,
 } from '@angular/http/testing';
 
 import { TodoBackendService } from './todo-backend.service';
@@ -31,7 +31,7 @@ describe('TodoBackendService', () => {
         MockBackend,
         { provide: 'apiEndpoint', useValue: '/test-api' },
         { provide: XHRBackend, useClass: MockBackend },
-      ]
+      ],
     });
   });
 

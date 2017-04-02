@@ -1,39 +1,84 @@
-import { Component } from '@angular/core';
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import 'rxjs/add/observable/of';
 
-const DummyTodosComponent = dummyComponent('app-todos', 'dummy todos');
-const DummyAddTodoComponent = dummyComponent('app-add-todo', 'dummy add todo');
+import { Component, Output, Input, EventEmitter } from '@angular/core';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { AppComponent } from './app.component';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
+
+import { Todo } from './todos/todo';
+import { AddAction } from './todos/actions';
+
+class MockStore {
+  select: jasmine.Spy;
+  dispatch: jasmine.Spy;
+
+  constructor() {
+    this.select = jasmine.createSpy('select');
+    this.dispatch = jasmine.createSpy('dispatch');
+  }
+}
+
+@Component({
+  selector: 'app-add-todo',
+  template: `<div>add todo stub component</div>`,
+})
+class AddTodoStubComponent {
+  @Output() add = new EventEmitter<string>();
+}
+
+@Component({
+  selector: 'app-todos',
+  template: `<div>todos stub component</div>`,
+})
+class TodosStubComponent {
+  @Input() todos: Todo[];
+}
+
+const elementFinder = fixture => predicate =>
+  fixture.debugElement.query(predicate);
 
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  let fixture: ComponentFixture<AppComponent>;
+  let findElement;
+  const todos = [
+    new Todo('1', 'todo 1'),
+    new Todo('2', 'todo 2'),
+  ];
+
+  beforeEach((() => {
+    const mockStore = new MockStore();
+    mockStore.select.and.callFake(() => Observable.of(todos));
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        DummyTodosComponent,
-        DummyAddTodoComponent,
+        AddTodoStubComponent,
+        TodosStubComponent,
+      ],
+      providers: [
+        { provide: Store, useValue: mockStore },
       ],
     });
+    fixture = TestBed.createComponent(AppComponent);
+    findElement = elementFinder(fixture);
+    fixture.detectChanges();
   }));
 
-  it('should render todos', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.textContent).toContain('dummy todos');
-  }));
+  it('adds todo', () => {
+    const addTodoComp = findElement(By.css('app-add-todo')).componentInstance;
+    addTodoComp.add.emit('hello');
+    const store = TestBed.get(Store);
+    expect(store.dispatch).toHaveBeenCalledWith(new AddAction('hello'));
+  });
 
-  it('should render add todo comp', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('renders todos', () => {
+    const todosComp: TodosStubComponent = findElement(By.css('app-todos')).componentInstance;
+    expect(todosComp.todos).toEqual(todos);
+  });
+
+  it('renders add todo component', (() => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.textContent).toContain('dummy add todo');
+    expect(compiled.textContent).toContain('add todo stub component');
   }));
 });
-
-function dummyComponent(selector: string, content: string) {
-  @Component({
-    selector: selector,
-    template: `<div>${content}</div>`
-  })
-  class DummyComponent {}
-  return DummyComponent;
-}

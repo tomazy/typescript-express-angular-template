@@ -11,7 +11,7 @@ describe('web App', () => {
       todos: [
         { description: 'GET SOME MILK' },
         { description: 'GET SOME BEER' },
-      ]
+      ],
     }, done);
   });
 

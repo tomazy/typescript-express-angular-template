@@ -1,16 +1,12 @@
-import { Component } from '@angular/core';
-import { TodoStoreService } from './todo-store.service';
-import { Todo } from './todo';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-todo',
-  templateUrl: './add-todo.component.html',
-  styleUrls: ['./add-todo.component.css'],
+  template: `
+    <input type="text" #newTodo>
+    <button (click)="add.emit(newTodo.value); newTodo.value = ''">add</button>
+  `,
 })
 export class AddTodoComponent {
-  constructor(private todoStore: TodoStoreService) { }
-
-  add(description) {
-    this.todoStore.add(new Todo(null, description));
-  }
+  @Output() add = new EventEmitter<string>();
 }

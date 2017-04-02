@@ -12,7 +12,7 @@ export class TodoBackendService {
     private http: Http,
 
     @Inject('apiEndpoint')
-    private apiEndpoint: string
+    private apiEndpoint: string,
   ) {}
 
   fetchTodos() {

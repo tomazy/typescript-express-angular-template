@@ -62,7 +62,7 @@
     ],
     "max-line-length": [
       true,
-      120
+      140
     ],
     "trailing-comma": [
       true,

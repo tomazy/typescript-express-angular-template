@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/body-parser": "^1.16.1",
+    "@types/body-parser": "^1.16.3",
     "@types/compression": "^0.0.33",
     "@types/cors": "^2.8.1",
     "@types/debug": "^0.0.29",
@@ -29,12 +29,12 @@
     "@types/invariant": "^2.2.28",
     "@types/jest": "^19.2.2",
     "@types/mongodb": "^2.1.41",
-    "@types/node": "^7.0.11",
+    "@types/node": "^7.0.12",
     "@types/response-time": "^2.3.0",
     "jest": "^19.0.2",
     "lint-staged": "^3.4.0",
     "npm-run-all": "^4.0.2",
-    "ts-jest": "^19.0.5",
+    "ts-jest": "^19.0.6",
     "tslint": "^4.5.1"
   },
   "dependencies": {
@@ -43,7 +43,7 @@
     "bunyan-request-logger": "^1.1.0",
     "co-express": "^2.0.0",
     "compression": "^1.6.2",
-    "cors": "^2.8.1",
+    "cors": "^2.8.3",
     "debug": "^2.6.3",
     "express": "^4.15.2",
     "express-error-handler": "^1.1.0",
@@ -56,7 +56,7 @@
     "nodemon": "^1.11.0",
     "response-time": "^2.3.2",
     "serve-static": "^1.12.1",
-    "typescript": "^2.2.1"
+    "typescript": "^2.2.2"
   },
   "jest": {
     "moduleFileExtensions": [

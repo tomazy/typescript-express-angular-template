@@ -1,13 +1,27 @@
 import { Component } from '@angular/core';
-import { TodoStoreService } from './todos/todo-store.service';
-import { TodoBackendService } from './todos/todo-backend.service';
+import { Store } from '@ngrx/store';
+import * as fromRoot from './reducer';
+
+import { AddAction } from './todos/actions';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [TodoStoreService, TodoBackendService],
+  template: `
+    <h1>
+      {{title}}
+    </h1>
+    <app-todos [todos]="todos$ | async"></app-todos>
+    <app-add-todo (add)="add($event)"></app-add-todo>
+  `,
 })
 export class AppComponent {
   title = 'todos';
+  private todos$ = this.store.select(state => state.todos.items);
+
+  constructor(private store: Store<fromRoot.State>) { }
+
+  add(description) {
+    this.store.dispatch(new AddAction(description));
+  }
 }
