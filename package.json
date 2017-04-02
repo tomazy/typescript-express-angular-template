@@ -13,18 +13,28 @@
     "install:backend": "cd backend && yarn",
     "build:frontend": "cd frontend && npm run build",
     "build:backend": "cd backend && npm run build",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint-staged:frontend": "cd frontend && npm run lint-staged",
+    "lint-staged:backend": "cd backend && npm run lint-staged",
     "build": "npm run build:backend && npm run build:frontend",
     "start": "cd backend && npm start",
     "e2e:start-backend": "cd backend && npm run build && npm run start:e2e",
     "e2e:frontend": "cd frontend && npm run e2e",
     "test:e2e": "./scripts/e2e.sh",
+    "lint": "npm-run-all -p lint:frontend lint:backend",
+    "lint-staged": "npm-run-all --silent -p lint-staged:frontend lint-staged:backend",
     "test": "npm run test:e2e"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "lint-staged": "^3.4.0",
+    "pre-commit": "^1.2.2"
+  },
   "dependencies": {
     "npm-run-all": "^4.0.2"
-  }
+  },
+  "pre-commit": "lint-staged"
 }

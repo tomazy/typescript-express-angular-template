@@ -8,6 +8,7 @@
     "build": "ng build --environment=prod --output-hashing=all",
     "test": "ng test",
     "lint": "ng lint",
+    "lint-staged": "lint-staged",
     "e2e": "ng e2e --environment=e2e"
   },
   "private": true,
@@ -39,9 +40,16 @@
     "karma-coverage-istanbul-reporter": "^1.0.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "lint-staged": "^3.4.0",
     "pow-mongodb-fixtures": "^0.14.0",
     "protractor": "~5.1.0",
     "ts-node": "^3.0.2",
-    "tslint": "~4.5.0"
+    "tslint": "^4.5.1"
+  },
+  "lint-staged": {
+    "gitDir": "../",
+    "linters": {
+       "frontend/**/*.ts": "lint"
+    }
   }
 }

@@ -11,6 +11,7 @@
     "start:e2e": "MONGODB_URI=mongodb://localhost:27017/e2e node dist/server.js",
     "start:dev": "npm-run-all -p gulp start:dev:server",
     "lint": "tslint -c tslint.json './app/**/*.ts'",
+    "lint-staged": "lint-staged",
     "test": "jest --forceExit",
     "test:watch": "jest --watch"
   },
@@ -31,6 +32,7 @@
     "@types/node": "^7.0.11",
     "@types/response-time": "^2.3.0",
     "jest": "^19.0.2",
+    "lint-staged": "^3.4.0",
     "npm-run-all": "^4.0.2",
     "ts-jest": "^19.0.5",
     "tslint": "^4.5.1"
@@ -67,5 +69,11 @@
     "testMatch": [
       "<rootDir>/app/**/*.test.ts"
     ]
+  },
+  "lint-staged": {
+    "gitDir": "../",
+    "linters": {
+      "backend/**/*.ts": "lint"
+    }
   }
 }
