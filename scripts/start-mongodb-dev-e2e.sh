@@ -13,4 +13,4 @@ then
 fi
 
 mkdir -p $DATA_DIR
-docker run --rm --name $NAME -p $MONGODB_PORT:27017 -v $DATA_DIR:/data/db $* mongo:latest
+docker run --rm --name $NAME -p $MONGODB_PORT:27017 $* mongo:latest
