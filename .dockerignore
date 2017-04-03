@@ -6,3 +6,4 @@ npm-debug.log
 .data*
 .release
 docker
+e2e

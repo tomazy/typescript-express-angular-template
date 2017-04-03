@@ -8,6 +8,7 @@ INITIAL_PATH=$PWD
 RELEASE_DIR=$PWD/.release
 export DEV_IMAGE_NAME=$PROJECT_NAME/dev
 export RELEASE_IMAGE_NAME=$PROJECT_NAME/release
+export E2E_IMAGE_NAME=$PROJECT_NAME/e2e
 
 # build sample_stack/node-chrome image (frontend image depends on it)
 ./docker/node-chrome/build.sh
@@ -45,6 +46,12 @@ rm backend.tgz
 # build the release image
 cp ../docker/Dockerfile.release Dockerfile
 docker build -t $RELEASE_IMAGE_NAME .
+
+cd $INITIAL_PATH
+
+# build e2e test runner image
+cd e2e
+docker build -t $E2E_IMAGE_NAME .
 
 cd $INITIAL_PATH
 

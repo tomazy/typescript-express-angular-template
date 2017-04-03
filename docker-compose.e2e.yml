@@ -16,7 +16,7 @@ services:
       - '5900:5900'
 
   e2e-runner:
-    image: ${DEV_IMAGE_NAME}
+    image: ${E2E_IMAGE_NAME}
     environment:
       SUT_URL: 'http://webapp:3000'
       SELENIUM_ADDRESS: 'http://selenium:4444/wd/hub'
@@ -24,7 +24,6 @@ services:
       MONGODB_PORT: '27017'
       MONGODB_DATABASE: 'myproject-test'
       CI: 'true'
-    command: "npm run test:e2e"
     depends_on:
       - selenium
       - webapp

@@ -27,7 +27,7 @@ e2e tests
 ---------
 
 ```bash
-./scripts/dev-e2e.sh
+npm run test:e2e
 ```
 
 Continues Integration/Delivery

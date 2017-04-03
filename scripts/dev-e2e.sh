@@ -25,7 +25,7 @@ BACKEND_HEARTBEAT_URL=http://localhost:$BACKEND_PORT/_heartbeat
 BACKEND_LOG=/tmp/test-backend.log
 
 export SUT_URL=http://localhost:$BACKEND_PORT
-export MONGODB_PORT=27019
+export MONGODB_PORT=27018
 export MONGODB_HOST=localhost
 export MONGODB_DATABASE=e2e
 export MONGODB_URI=mongodb://$MONGODB_HOST:$MONGODB_PORT/$MONGODB_DATABASE
@@ -62,8 +62,10 @@ until $(curl --output /dev/null --silent --head --fail $BACKEND_HEARTBEAT_URL); 
 done
 echo
 
-cd $INITIAL_PATH
+cd $INITIAL_PATH/e2e
+yarn install
 echo "Running the specs"
+npm run update-webdriver
 npm run test
 
 cleanup

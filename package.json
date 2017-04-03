@@ -22,27 +22,18 @@
     "e2e:frontend": "cd frontend && npm run e2e",
     "lint": "npm-run-all -p lint:frontend lint:backend",
     "lint-staged": "npm-run-all --silent -p lint-staged:frontend lint-staged:backend",
-    "test": "npm run test:e2e",
-    "wait-for-selenium": "./scripts/wait-for-selenium.sh",
-    "wait-for-sut": "./scripts/wait-for-sut.sh",
-    "test:e2e": "npm run wait-for-selenium && npm run wait-for-sut && protractor",
+    "test:e2e": "./scripts/dev-e2e.sh",
     "test:ci:frontend": "cd frontend && npm run test:ci",
     "test:ci:backend": "cd backend && npm run test:ci",
-    "test:ci": "npm run test:ci:backend && npm run test:ci:frontend"
+    "test:ci": "npm run test:ci:backend && npm run test:ci:frontend",
+    "test": "npm-run-all -s test:ci test:e2e"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jasmine": "^2.5.47",
-    "jasmine-core": "^2.5.2",
-    "jasmine-spec-reporter": "^3.2.0",
     "lint-staged": "^3.4.0",
-    "pow-mongodb-fixtures": "^0.14.0",
-    "pre-commit": "^1.2.2",
-    "protractor": "^5.1.1",
-    "ts-node": "^3.0.2",
-    "typescript": "^2.2.2"
+    "pre-commit": "^1.2.2"
   },
   "dependencies": {
     "npm-run-all": "^4.0.2"

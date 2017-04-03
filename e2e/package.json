@@ -1,0 +1,25 @@
+{
+  "name": "e2e",
+  "version": "0.0.1",
+  "description": "e2e tests",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "update-webdriver": "webdriver-manager update",
+    "wait-for-selenium": "./scripts/wait-for-selenium.sh",
+    "wait-for-sut": "./scripts/wait-for-sut.sh",
+    "test": "npm run wait-for-selenium && npm run wait-for-sut && protractor"
+  },
+  "dependencies": {
+    "jasmine-core": "^2.5.2",
+    "jasmine-spec-reporter": "^3.2.0",
+    "npm-run-all": "^4.0.2",
+    "pow-mongodb-fixtures": "^0.14.0",
+    "protractor": "^5.1.1",
+    "ts-node": "^3.0.2",
+    "typescript": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.5.47"
+  }
+}
