@@ -51,7 +51,7 @@ export class TodosEffects {
     .ofType(actions.ActionTypes.ADD)
     .map(toPayload)
     .mergeMap(description =>
-      this.backend.add(new Todo(null, description))
+      this.backend.add(description)
         .map(todo => new actions.AddSuccessAction(todo))
         .catch(e => Observable.of(new actions.AddFailAction(e))),
     );

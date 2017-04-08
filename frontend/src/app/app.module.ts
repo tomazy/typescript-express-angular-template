@@ -2,17 +2,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { environment } from '../environments/environment';
+
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { ApolloClient, createNetworkInterface } from 'apollo-client';
+import { ApolloModule } from 'apollo-angular';
+
+import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { TodosComponent } from './todos/todos.component';
 import { AddTodoComponent } from './todos/add-todo.component';
 import { TodoBackendService } from './todos/todo-backend.service';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { reducer } from './reducer';
 import { TodosEffects } from './todos/effects';
+
+const apolloClient = new ApolloClient({
+  networkInterface: createNetworkInterface({
+    uri: environment.graphqlEndpoint,
+  }),
+});
+
+function provideClient(): ApolloClient {
+  return apolloClient;
+}
 
 @NgModule({
   declarations: [
@@ -29,9 +44,9 @@ import { TodosEffects } from './todos/effects';
       maxAge: 5,
     }),
     EffectsModule.run(TodosEffects),
+    ApolloModule.forRoot(provideClient),
   ],
   providers: [
-    { provide: 'apiEndpoint', useValue: environment.apiEndpoint },
     TodoBackendService,
   ],
   bootstrap: [AppComponent],

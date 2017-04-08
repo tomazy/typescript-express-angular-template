@@ -1,27 +1,53 @@
-import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 
 import 'rxjs/add/operator/map';
 
 import { Todo } from './todo';
 
+const todosQuery = gql`
+  query {
+    todos {
+      id,
+      description
+    }
+  }
+`;
+
+interface TodosQueryResponse {
+  todos: [Todo];
+};
+
+const addTodoMutation = gql`
+  mutation ($description: String!) {
+    addTodo(description: $description) {
+      id,
+      description,
+    }
+  }
+`;
+
+interface AddTodoMutationResult {
+  addTodo: Todo;
+}
+
 @Injectable()
 export class TodoBackendService {
 
   constructor(
-    private http: Http,
-
-    @Inject('apiEndpoint')
-    private apiEndpoint: string,
+    private apollo: Apollo,
   ) {}
 
   fetchTodos() {
-    return this.http.get(`${this.apiEndpoint}/todos`)
-      .map(response => response.json() as Todo[]);
+    return this.apollo.watchQuery<TodosQueryResponse>({query: todosQuery})
+      .map(({data: { todos }}) => todos);
   }
 
-  add(todo: Todo) {
-    return this.http.post(`${this.apiEndpoint}/todos`, todo)
-      .map(response => response.json() as Todo);
+  add(description: String) {
+    return this.apollo.mutate<AddTodoMutationResult>({
+      mutation: addTodoMutation,
+      variables: { description },
+    }).map(({data: { addTodo }}) => addTodo);
   }
 }

@@ -6,7 +6,7 @@ interface TodoFields {
   description: string;
 }
 
-interface Todo extends TodoFields {
+export interface Todo extends TodoFields {
   id: string;
 }
 
