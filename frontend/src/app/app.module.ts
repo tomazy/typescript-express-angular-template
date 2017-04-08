@@ -25,7 +25,8 @@ const apolloClient = new ApolloClient({
   }),
 });
 
-function provideClient(): ApolloClient {
+// has to be exported to make the tsc compile this file :/
+export function provideClient(): ApolloClient {
   return apolloClient;
 }
 
