@@ -18,7 +18,7 @@ const server = http.createServer(app);
 // down the server. Pass in the server object
 // so the error handler can shut it down
 // gracefully:
-app.use(errorHandler({server}));
+app.use(errorHandler({ server }));
 
 // Note that there's not much logic in this file.
 // The server should be mostly "glue" code to set things up and

@@ -1,6 +1,6 @@
 import * as invariant from 'invariant';
 
-import {MongoClient, Db} from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import config from './config';
 
 const log = require('./logger')('db');

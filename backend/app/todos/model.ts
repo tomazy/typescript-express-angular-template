@@ -1,6 +1,6 @@
 import { Db } from 'mongodb';
 
-const debug = require('debug')('todos/model');
+const debug = require('debug')('todos/model'); // tslint:disable-line no-unused-variable
 
 interface TodoFields {
   description: string;

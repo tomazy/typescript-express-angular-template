@@ -1,7 +1,7 @@
 jest.mock('mongodb');
 import { Db, Server } from 'mongodb';
 
-import {createGateway, TodoGateway} from './model';
+import { createGateway, TodoGateway } from './model';
 
 describe('gateway', () => {
   let gateway: TodoGateway;

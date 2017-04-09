@@ -6,9 +6,9 @@ import * as compression from 'compression';
 import * as serveStatic from 'serve-static';
 import * as errorHandler from 'express-error-handler';
 import * as bodyParser from 'body-parser';
-import {graphiqlExpress} from 'graphql-server-express';
+import { graphiqlExpress } from 'graphql-server-express';
 
-import {middleware as db} from './db';
+import { middleware as db } from './db';
 import cors from './cors';
 import graphql from './graphql';
 
@@ -28,7 +28,7 @@ app.use(serveStatic(path.resolve(__dirname, '../wwwroot'), {
 
 app.use(db);
 app.use('/graphql', cors, graphql);
-app.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}));
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.get('/_heartbeat', (req, res) => {
   res.sendStatus(204);

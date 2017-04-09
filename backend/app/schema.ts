@@ -1,7 +1,7 @@
-import {Db} from 'mongodb';
-import {GraphQLSchema} from 'graphql';
-import {makeExecutableSchema} from 'graphql-tools';
-import {createGateway, Todo} from './todos/model';
+import { Db } from 'mongodb';
+import { GraphQLSchema } from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
+import { createGateway, Todo } from './todos/model';
 
 const typeDefs = [`
   type Todo {
